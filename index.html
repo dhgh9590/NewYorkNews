@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>News</title>
+
+    <link rel="stylesheet" href="css/reset.css" />
+    <!-- 리셋 css -->
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- 스타일 css -->
+    <link rel="stylesheet" href="css/slick.css" />
+    <!-- 슬릭 슬라이드 css -->
+    <link rel="stylesheet" href="css/font-awesome.css" />
+    <!-- 폰트어썸 구버전 css -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous"
+    />
+    <!-- 폰트어썸 신버전 CDN -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- 제이쿼리 js -->
+    <script src="js/jquery-ui.min.js"></script>
+    <!-- 제이쿼리UI js -->
+    <script src="js/slick.min.js"></script>
+    <!-- 슬릭 슬라이더 js -->
+  </head>
+  <body>
+    <header id="header">
+      <div class="container">
+        <div class="header">
+          <div class="search">
+            <form method="post" action="search.html">
+              <button class="search_btt"><i class="fas fa-search"></i></button>
+              <input
+                type="text"
+                name="search"
+                placeholder="Earch articles, podcasts..."
+                class="search_input"
+              />
+            </form>
+          </div>
+          <div class="title">
+            <a href="index.html">
+              <h1>New York Times</h1>
+            </a>
+          </div>
+          <div class="sns"></div>
+        </div>
+        <nav id="nav">
+          <div class="menu">
+            <ul>
+              <li>
+                <a href="#"><em>Sport</em></a>
+              </li>
+              <li>
+                <a href="#"><em>Tech</em></a>
+              </li>
+              <li>
+                <a href="#"><em>World</em></a>
+              </li>
+              <li>
+                <a href="#"><em>Finance</em></a>
+              </li>
+              <li>
+                <a href="#"><em>Politics</em></a>
+              </li>
+              <li>
+                <a href="#"><em>Business</em></a>
+              </li>
+              <li>
+                <a href="#"><em>Economics</em></a>
+              </li>
+              <li>
+                <a href="#"><em>Entertainment</em></a>
+              </li>
+              <li>
+                <a href="#"><em>Beauty</em></a>
+              </li>
+              <li>
+                <a href="#"><em>Travel</em></a>
+              </li>
+              <li>
+                <a href="#"><em>Food</em></a>
+              </li>
+              <li>
+                <a href="#"><em>Science</em></a>
+              </li>
+              <li>
+                <a href="#"><em>Gaming</em></a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <div class="banner">
+          <div class="left_item news_wrap"></div>
+          <div class="right_item">
+            <ul>
+              <li class="news_wrap"></li>
+              <li class="news_wrap"></li>
+              <li class="news_wrap"></li>
+              <li class="news_wrap"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section id="section1">
+      <div class="container">
+        <div class="section1">
+          <div class="left_box item_wrap"></div>
+          <div class="right_box">
+            <ul>
+              <li class="item_wrap"></li>
+              <li class="item_wrap"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="js/index.js"></script>
+    <script>
+      let item = [];
+      const key = "9mQDuNTnV13grJc4C_sC8mTefwC2IXjN_M-7YO_mJUs";
+
+      function getUrl1(title, number, render) {
+        let url = new URL(
+          `https://api.newscatcherapi.com/v2/latest_headlines?countries=KR&topic=${title}&page_size=${number}`
+        );
+        getNews(url, render);
+      }
+
+      function getUrl2(title, number, render) {
+        let url = new URL(
+          `https://api.newscatcherapi.com/v2/latest_headlines?countries=KR&topic=${title}&page_size=${number}`
+        );
+        getNews(url, render);
+      }
+
+      async function getNews(url, render) {
+        let header = new Headers({
+          "x-api-key": key,
+        });
+        await fetch(url, { headers: header })
+          .then((res) => res.json())
+          .then((data) => {
+            item = data.articles;
+            render(item);
+            console.log(item);
+          });
+      }
+
+      function render2(item) {
+        let itemWrap = document.querySelectorAll("#section1 .item_wrap");
+
+        item.forEach(function (item, index) {
+          let newHTML = `<div class="item">
+                        <a href="${item.link}" target="blink">
+                            <div class="img_box">
+                                <img src="${item.media}" alt="">
+                            </div>
+                            <div class="text_box">
+                                <em>0${index + 1}.</em>
+                                <span></span>
+                                <h3>${item.title}</h3>
+                                <strong>MORE</strong>
+                            </div>
+                        </a>
+                    </div>`;
+
+          itemWrap[index].innerHTML = newHTML;
+        });
+      }
+
+      setTimeout(function () {
+        getUrl1("music", 3, render2);
+      }, 1500);
+    </script>
+  </body>
+</html>
